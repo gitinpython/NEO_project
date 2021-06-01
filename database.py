@@ -40,11 +40,18 @@ class NEODatabase:
         """
         self._neos = neos
         self._approaches = approaches
-        for ca in self._approaches:
-            for neo in self._neos:
-               if(ca._designation==neo.designation):
-                    ca.neo=neo
-                    neo.approaches.append(ca)
+        self.NEO_des = dict((neo.designation,neo) for neo in self._neos)
+      #  self.NEO_names = dict((neo.name,neo) for neo in self._neos) -- original
+        self.NEO_names = dict()
+        for neo in self._neos:
+            if neo.name not in self.NEO_names:
+                self.NEO_names[neo.name]=list()
+            self.NEO_names[neo.name].append(neo)
+            
+        for cad in self._approaches:
+            if cad._designation in self.NEO_des.keys():
+                cad.neo=self.NEO_des[cad._designation]
+                self.NEO_des[cad._designation].approaches.append(cad)
 
         # TODO: What additional auxiliary data structures will be useful?
 
@@ -64,10 +71,8 @@ class NEODatabase:
         :return: The `NearEarthObject` with the desired primary designation, or `None`.
         """
         # TODO: Fetch an NEO by its primary designation.
-        if(designation):
-            for neo in self._neos:
-                if(designation==neo.designation):
-                    return neo
+         if(designation in self.NEO_des.keys()):
+            return self.NEO_des[designation]
         else:
             return None
 
@@ -86,10 +91,8 @@ class NEODatabase:
         :return: The `NearEarthObject` with the desired name, or `None`.
         """
         # TODO: Fetch an NEO by its name.
-        if(name):
-            for neo in self._neos:
-                if(name==neo.name):
-                    return neo
+        if(name in self.NEO_names.keys()):
+            return self.NEO_names[name]           
         else:
             return None
         
