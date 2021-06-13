@@ -37,9 +37,10 @@ class NEODatabase:
 
         :param neos: A collection of `NearEarthObject`s.
         :param approaches: A collection of `CloseApproach`es.
-        :param NEO_des: Dictionary of all "designations" as keys & their corresponding "neos" as values (additional data structure to facilitate NEO-Close approach linking)
-        :param NEO_names: Dictionary of all "neo names" as keys & their corresponding "neos" as values (additional data structure to facilitate NEO-Close approach linking)
         """
+        #ELABORATE
+        #:param NEO_des: Dictionary of all "designations" as keys & their corresponding "neos" as values to map neos with their corresponding designations(additional data structure to facilitate NEO-Close approach linking)
+        #:param NEO_names: Dictionary of all "neo names" as keys & their corresponding "neos" as values to map neos with their corresponding names(additional data structure to facilitate NEO-Close approach linking)
         self._neos = neos
         self._approaches = approaches
         self.NEO_des = dict((neo.designation,neo) for neo in self._neos)
@@ -53,7 +54,7 @@ class NEODatabase:
                  #  self.NEO_names[neo.name].append(neo)
     ###GOOD TO HAVE BUT NOT MANDATORY : If you want to print all NEOs having the same name, follow/enable above code to build the self.NEO_names; else keep it disabled### 
      
-    #Linking close approach with their corresponding NEO's if their designation is the same
+    #ELABORATE : Linking close approach with their corresponding NEO's if their designation is the same
         for cad in self._approaches:
             if cad._designation in self.NEO_des.keys():
                 cad.neo=self.NEO_des[cad._designation]
@@ -73,7 +74,7 @@ class NEODatabase:
         :param designation: The primary designation of the NEO to search for.
         :return: The `NearEarthObject` with the desired primary designation, or `None`.
         """
-        
+        #ELABORATE : if designation argument passed by user belongs to the dictionary mapping of neo-designation, return the corresponding NEO specific to that designation, else return None
         if(designation in self.NEO_des.keys()):
             return self.NEO_des[designation]
         else:
@@ -93,7 +94,8 @@ class NEODatabase:
         :param name: The name, as a string, of the NEO to search for.
         :return: The `NearEarthObject` with the desired name, or `None`.
         """
-        
+        #ELABORATE : if name argument passed by user belongs to the dictionary mapping of neo-name, return the corresponding NEO specific to that name, else return None
+
         if(name in self.NEO_names.keys()):
             return self.NEO_names[name]           
         else:
@@ -115,12 +117,12 @@ class NEODatabase:
         """
         
         for approach in self._approaches:
-            output=[f(approach) for f in filters]   #output consists of a list of closed approaches which are filtered by the :param filters
-            if(len(output) > 1): #if output is a collection of more than 1 filter functions , then return approach only if it matches/satisfies all the filter functions 
+            output=[f(approach) for f in filters]   #ELABORATE:output consists of a list of closed approaches which are filtered by the :param filters
+            if(len(output) > 1): #ELABORATE:if output is a collection of more than 1 filter functions , then return approach only if it matches/satisfies all the filter functions 
                 if(all(output)): 
                     yield approach
-            elif(len(output)==1): #if output contains only one filter function, then return approach if it matches/satisfies this filter function 
+            elif(len(output)==1): #ELABORATE:if output contains only one filter function, then return approach if it matches/satisfies this filter function 
                 if(output[0]):
                     yield approach
-            else:   #if output is empty or doesnt match any filter criteria, then return all closed approaches by default 
+            else:   #ELABORATE:if output is empty or doesnt match any filter criteria, then return all closed approaches by default 
                 yield approach
