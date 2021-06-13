@@ -188,20 +188,26 @@ def inspect(database, pdes=None, name=None, verbose=False):
         return None
 
     # Display information about this NEO, and optionally its close approaches if verbose.
-     #print(neo) -- original
-    if(len(neo) > 1):
-        for neo_elem in neo:
-            print(neo_elem)
-    else:
-        print(neo)
+    print(neo) 
+  ###GOOD TO HAVE BUT NOT MANDATORY - Enable below code if you want to print out all NEOs & their closed approaches having the same NEO name###
+   # if(len(neo) > 1):
+    #    for neo_elem in neo:
+     #       print(neo_elem)
+   # else:
+    #    print(neo)
+  ###GOOD TO HAVE BUT NOT MANDATORY - Enable above code if you want to print out all NEOs & their closed approaches having the same NEO name###
     if verbose:
-        if(len(neo) == 1):
-            for approach in neo.approaches:
-                print(f"- {approach}")
-        else:
-           for neo_elem in neo:
-              for approach in neo_elem.approaches:
-                    print(f"- {approach}")
+        ###GOOD TO HAVE BUT NOT MANDATORY - Enable below code if you want to print out all NEOs & their closed approaches having the same NEO name###
+        #if(len(neo) == 1):
+        ###GOOD TO HAVE BUT NOT MANDATORY - Enable above code if you want to print out all NEOs & their closed approaches having the same NEO name###
+          for approach in neo.approaches:
+              print(f"- {approach}")
+    ###GOOD TO HAVE BUT NOT MANDATORY - Enable below code if you want to print out all NEOs & their closed approaches having the same NEO name###   
+    # else:
+        #   for neo_elem in neo:
+         #     for approach in neo_elem.approaches:
+          #          print(f"- {approach}")
+    ###GOOD TO HAVE BUT NOT MANDATORY - Enable above code if you want to print out all NEOs & their closed approaches having the same NEO name###
     return neo
 
 
