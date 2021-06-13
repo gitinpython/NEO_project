@@ -37,6 +37,8 @@ class NEODatabase:
 
         :param neos: A collection of `NearEarthObject`s.
         :param approaches: A collection of `CloseApproach`es.
+        :param NEO_des: Dictionary of all "designations" as keys & their corresponding "neos" as values (additional data structure to facilitate NEO-Close approach linking)
+        :param NEO_names: Dictionary of all "neo names" as keys & their corresponding "neos" as values (additional data structure to facilitate NEO-Close approach linking)
         """
         self._neos = neos
         self._approaches = approaches
@@ -50,7 +52,8 @@ class NEODatabase:
                 #       self.NEO_names[neo.name]=list()
                  #  self.NEO_names[neo.name].append(neo)
     ###GOOD TO HAVE BUT NOT MANDATORY : If you want to print all NEOs having the same name, follow/enable above code to build the self.NEO_names; else keep it disabled### 
-    
+     
+    #Linking close approach with their corresponding NEO's if their designation is the same
         for cad in self._approaches:
             if cad._designation in self.NEO_des.keys():
                 cad.neo=self.NEO_des[cad._designation]
@@ -112,12 +115,12 @@ class NEODatabase:
         """
         
         for approach in self._approaches:
-            output=[f(approach) for f in filters]
-            if(len(output) > 1):
-                if(all(output)):
+            output=[f(approach) for f in filters]   #output consists of a list of closed approaches which are filtered by the :param filters
+            if(len(output) > 1): #if output is a collection of more than 1 filter functions , then return approach only if it matches/satisfies all the filter functions 
+                if(all(output)): 
                     yield approach
-            elif(len(output)==1):
+            elif(len(output)==1): #if output contains only one filter function, then return approach if it matches/satisfies this filter function 
                 if(output[0]):
                     yield approach
-            else:
+            else:   #if output is empty or doesnt match any filter criteria, then return all closed approaches by default 
                 yield approach
