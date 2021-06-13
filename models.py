@@ -39,27 +39,27 @@ class NearEarthObject:
         :param info: A dictionary of excess keyword arguments supplied to the constructor.
         """
         
-        self.designation = info['designation']   #Get NEO's designation 
-        if(not info['name']):  #get NEO's name, if its empty string, then default is None 
+        self.designation = info['designation']   #ELABORATE:Get NEO's designation 
+        if(not info['name']):  #ELABORATE:get NEO's name, if its empty string, then default is None 
             self.name=None
         else:
             self.name=info['name']
-        if(not info['diameter']):   #get NEO's diameter, if its not defined/unknown, then default is "nan"
+        if(not info['diameter']):   #ELABORATE:get NEO's diameter, if its not defined/unknown, then default is "nan"
             self.diameter = float('nan')
         else:
             self.diameter=float(info['diameter'])
-        if(info['hazardous']=='Y'):  #get NEO's status for hazardous or not
+        if(info['hazardous']=='Y'):  #ELABORATE:get NEO's status for hazardous or not
             self.hazardous=True
         else:
             self.hazardous=False
         
-        # Create an empty initial collection of linked approaches.
+        #ELABORATE: Create an empty initial collection of linked approaches. To be populated later when NEOs are linked o their corresponding closed approaches
         self.approaches = []
 
     @property
     def fullname(self):
         """Return a representation of the full name of this NEO."""
-        # Use self.designation and self.name to build a fullname for this object.
+        #ELABORATE: Use self.designation and self.name to build a fullname for this object.
         if(self.name):
             return f"{self.designation} {self.name}"
         else:
@@ -67,7 +67,7 @@ class NearEarthObject:
 
     def __str__(self):
         """Return `str(self)`."""
-        
+        #ELABORATE: If self.hazardous is True, then return an empty string, but if its false, then return the string "not" so that later it can be used in the output of __str__
         if(self.hazardous): 
             haz = ""
         else:
@@ -81,7 +81,12 @@ class NearEarthObject:
         return (f"NearEarthObject(designation={self.designation!r}, name={self.name!r}, "
                 f"diameter={self.diameter:.3f}, hazardous={self.hazardous!r})")
     
-    def serialize(self):  #create a dictionary of all essential elements of a NEO's object
+    def serialize(self):  
+        """Return a dictionary of all essential keywords of a NEO's object with their corresponding values defined in the class constructor __init__. 
+        This dictionary is later used to write into CSV/JSON output file.
+        Essential keyword for a NEO object are : name, designation,diameter_km,potentially_hazardous.
+        """
+        
         neo_dict=dict()
         if(self.name is None):
             neo_dict['name']=''
@@ -115,16 +120,16 @@ class CloseApproach:
         :param info: A dictionary of excess keyword arguments supplied to the constructor.
         """
         
-        self._designation = info['designation'] #get designation of NEO
-        if(not info['cd']): #get unformatted date & time of NEO, if not defined assign none, else convert to datetime format
+        self._designation = info['designation'] #ELABORATE:get designation of NEO
+        if(not info['cd']): #ELABORATE:get unformatted date & time of NEO, if not defined assign none, else convert to datetime format
             self.time = None  
         else:
             self.time=cd_to_datetime(info['cd'])
             
-        self.distance = float(info['distance']) #get NEO's closest distance of approach
-        self.velocity = float(info['v_rel'])  #get NEO's closest approach velocity relative to earth
+        self.distance = float(info['distance']) #ELABORATE:get NEO's closest distance of approach
+        self.velocity = float(info['v_rel'])  #ELABORATE:get NEO's closest approach velocity relative to earth
 
-        # Create an attribute for the referenced NEO, originally None.
+        #ELABORATE : Create an attribute for the referenced NEO, originally None. It is updated later when NEO's are linked to their corresponding closed approaches
         self.neo=None 
 
     @property
@@ -153,7 +158,12 @@ class CloseApproach:
         return (f"CloseApproach(time={self.time_str!r}, distance={self.distance:.2f}, "
                 f"velocity={self.velocity:.2f}, neo={self.neo!r}, designation={self._designation!r})")
     
-    def serialize(self):  #create a dictionary of all essential elements of NEO's close approach object 
+    def serialize(self):   
+        """Return a dictionary of all essential keywords of a NEO's cloase approach object with their corresponding values defined in the class constructor __init__. 
+        This dictionary is later used to write into CSV/JSON output file.
+        Essential keyword for a NEO object are : datetime_utc,distance_au,velocity_km_s.
+        """
+        
         approach_dict=dict()
         approach_dict['datetime_utc']="{date_time}".format(date_time=self.time_str)
         approach_dict['distance_au']=self.distance
