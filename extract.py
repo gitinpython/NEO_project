@@ -30,7 +30,7 @@ def load_neos(neo_csv_path):
         read_neo=csv.DictReader(infile)
         for row_neo in read_neo:
             neo_list.append(NearEarthObject(designation=row_neo['pdes'],name=row_neo['name'],diameter=row_neo['diameter'],hazardous=row_neo['pha']))
-    return neo_list  #list of NEO objects
+    return neo_list  #ELABORATE: list of NEO objects
 
 
 def load_approaches(cad_json_path):
@@ -42,6 +42,10 @@ def load_approaches(cad_json_path):
     
     closeapproach_list=[]
     with open(cad_json_path) as infile:
+        #ELABORATE: 
+        #Get the indices of all necessary parameters such as : cd (date & time) , dist (approach distance), des (NEO's designation), v_rel (NEO's relative approach velocity)
+        #so that they can be used later to extract the information corresponding to these parameters for every NEO-list element in the JSON dictionary's "data" key
+        #(ca_load is a JSON dictionary that contains a key - "data" & a key - "fields" where the former is paired to a value that is a list of lists where every list holds information corresponding to the parameters/elements of another list which is represented as the value of the key "fields" 
         ca_load=json.load(infile)
         icd=ca_load['fields'].index('cd')
         idist=ca_load['fields'].index('dist')
@@ -49,4 +53,4 @@ def load_approaches(cad_json_path):
         ivrel=ca_load['fields'].index('v_rel')
         for data in ca_load['data']:
             closeapproach_list.append(CloseApproach(cd=data[icd],designation=data[ides],distance=data[idist],v_rel=data[ivrel]))
-    return closeapproach_list  #list of CA objects
+    return closeapproach_list  #ELABORATE: list of Close Approach objects
