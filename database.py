@@ -46,13 +46,13 @@ class NEODatabase:
         self.NEO_des = dict((neo.designation,neo) for neo in self._neos)
         self.NEO_names = dict((neo.name,neo) for neo in self._neos)
         
-    ###GOOD TO HAVE BUT NOT MANDATORY : If you want to print all NEOs having the same name, follow/enable below code to build the self.NEO_names; else keep it disabled###
+    ###ELABORATE:(Refer EXTENSIONS.md)- GOOD TO HAVE BUT NOT MANDATORY : If you want to print all NEOs having the same name, follow/enable below code to build the self.NEO_names; else keep it disabled###
             #  self.NEO_names = dict()
              # for neo in self._neos:
                #    if neo.name not in self.NEO_names:
                 #       self.NEO_names[neo.name]=list()
                  #  self.NEO_names[neo.name].append(neo)
-    ###GOOD TO HAVE BUT NOT MANDATORY : If you want to print all NEOs having the same name, follow/enable above code to build the self.NEO_names; else keep it disabled### 
+    ###ELABORATE:(Refer EXTENSIONS.md)- GOOD TO HAVE BUT NOT MANDATORY : If you want to print all NEOs having the same name, follow/enable above code to build the self.NEO_names; else keep it disabled### 
      
     #ELABORATE : Linking close approach with their corresponding NEO's if their designation is the same
         for cad in self._approaches:
