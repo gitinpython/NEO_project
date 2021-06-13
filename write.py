@@ -25,9 +25,20 @@ def write_to_csv(results, filename):
     :param filename: A Path-like object pointing to where the data should be saved.
     """
     fieldnames = ('datetime_utc', 'distance_au', 'velocity_km_s', 'designation', 'name', 'diameter_km', 'potentially_hazardous')
-    # TODO: Write the results to a CSV file, following the specification in the instructions.
-
-
+    # Write the results to a CSV file, following the specification in the instructions.
+   
+    final_list=[] #create a list of dictionaries where every dictionary belongs to a result(aka close approach 's object) containing all essential fieldnames as keys with their corresponding values
+    for elem in results:
+        elem_dict=elem.serialize()
+        elem_dict.update(elem.neo.serialize())
+        final_list.append(elem_dict)
+    with open(filename,'w') as outfile:
+        writer=csv.DictWriter(outfile,fieldnames)
+        writer.writeheader()
+        for f in final_list:  #Here, f is a dictionary that represents details of every close approach object & is written to the csv file
+            writer.writerow(f)
+        
+ 
 def write_to_json(results, filename):
     """Write an iterable of `CloseApproach` objects to a JSON file.
 
@@ -39,4 +50,12 @@ def write_to_json(results, filename):
     :param results: An iterable of `CloseApproach` objects.
     :param filename: A Path-like object pointing to where the data should be saved.
     """
-    # TODO: Write the results to a JSON file, following the specification in the instructions.
+    # Write the results to a JSON file, following the specification in the instructions.
+    final_list=[] #create a list of dictionaries where every dictionary belongs to a result(aka close approach 's object) containing all essential fieldnames as keys with their corresponding values
+    for elem in results:
+        elem_dict=elem.serialize()
+        elem_dict['neo']=elem.neo.serialize() #json file should have a key named "neo" that is a dictionary of all essential details of a NEO object having a well-defined close approach
+        final_list.append(elem_dict)
+    with open(filename,'w') as outfile:
+         json.dump(final_list,outfile) 
+         
