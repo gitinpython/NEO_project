@@ -39,7 +39,7 @@ It's normal to encounter bugs along the way, so in all likelihood, you'll also g
 
 ## Understanding the Near-Earth Object Close Approach Datasets
 
-This project contains two important data sets, and our first step will be to explore and understand the data containing within these structured files. Please download the dataset from the starter code - https://github.com/udacity/nd303-c1-advanced-python-techniques-project-starter/tree/master/data 
+This project contains two important data sets, and our first step will be to explore and understand the data containing within these structured files. **Please download the dataset from the starter code - https://github.com/udacity/nd303-c1-advanced-python-techniques-project-starter/tree/master/data** 
 
 One dataset (`neos.csv`) contains information about semantic, physical, orbital, and model parameters for certain small bodies (asteroids and comets, mostly) in our solar system. The other dataset (`cad.json`) contains information about NEO close approaches - moments in time when the orbit of an astronomical body brings it close to Earth. NASA helpfully provides a [glossary](https://cneos.jpl.nasa.gov/glossary/) to define any unfamiliar terms you might encounter.
 
